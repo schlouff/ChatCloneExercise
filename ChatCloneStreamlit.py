@@ -5,11 +5,10 @@ import openai
 
 from openai import OpenAI
 
-# API Key Laden
-with open('key.txt', 'r') as f:
-    api_key = f.read().strip('\n')
-    assert api_key.startswith('sk-'), 'Error loading the API key. The API key starts with "sk-"'
-    os.environ['OPENAI_API_KEY'] = api_key
+# API-Schlüssel aus config.py laden
+api_key = config.api_key
+assert api_key.startswith('sk-'), 'Error loading the API key. The API key starts with "sk-"'
+os.environ['OPENAI_API_KEY'] = api_key
 
 openai.api_key = api_key
 
