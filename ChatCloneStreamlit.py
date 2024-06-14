@@ -5,10 +5,15 @@ import openai
 
 from openai import OpenAI
 
-# API-Schlüssel aus config.py laden
-api_key = config.api_key
-assert api_key.startswith('sk-'), 'Error loading the API key. The API key starts with "sk-"'
-os.environ['OPENAI_API_KEY'] = api_key
+st.write("DB username:", st.secrets["Christo"])
+st.write("DB password:", st.secrets["ba11one"])
+st.write("My cool secrets:", st.secrets["my_cool_secrets"]["things_i_like"])
+
+# And the root-level secrets are also accessible as environment variables:
+st.write(
+    "Has environment variables been set:",
+    os.environ["db_username"] == st.secrets["db_username"],
+)
 
 openai.api_key = api_key
 
