@@ -7,13 +7,8 @@ from openai import OpenAI
 
 st.write("DB username:", st.secrets["Christo"])
 st.write("DB password:", st.secrets["ba11one"])
-st.write("My cool secrets:", st.secrets["my_cool_secrets"]["things_i_like"])
+st.write("api:", st.secrets["api"]["api_key"])
 
-# And the root-level secrets are also accessible as environment variables:
-st.write(
-    "Has environment variables been set:",
-    os.environ["db_username"] == st.secrets["db_username"],
-)
 
 openai.api_key = api_key
 
