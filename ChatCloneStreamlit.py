@@ -15,10 +15,13 @@ client = OpenAI()
 
 # Initialisierungen
 questions = [
-    "Think of a situation.",
-    "What animal does this situation remind you of?",
-    "In what landscape is this animal?",
-    "Add an item that gives you strength or a good feeling."
+    "Hallo. Schön, dass du hier bist.\n\nDu hast jetzt die Möglichkeit eine Situation zu untersuchen, die bei dir Scham ausgelöst hat, die dir peinlich/unangenehm war und es vielleicht noch ist. Was für eine peinliche oder schamauslösende Situation fällt dir ein? Du wirst mit der Erinnerung an diese Situation weiterarbeiten. Wenn du merkst, das ist jetzt gerade zu krass, vielleicht gibt es ja auch eine Situation, in der du nicht so tief einsteigst, aber wo das Gefühl auch wieder auftaucht.\nDu übernimmst die Verantwortung für dich selbst in dieser Arbeit, aber wir geben dir Raum und Zeit zum reflektieren und vielleicht sogar anstöße das Gefühl zu der Situation zu verändern. Also bist du startklar?\nSchreib “ok” - und dann kann es losgehen.",
+    "Schau, welche Peinliche/schamhafte Situation heute für dich passt. Schau mal in deinem inneren, was du alles siehst in dieser Situation und was du dabei fühlst. Lass dir dabei zeit und schreib “ok” wenn du eine Situation vor Augen hast.",
+    "Gibt es in dieser Situation etwas, dass jemand gesagt hat? Was ein bestimmtes Gefühl ausgelöst hat? Gibt es was was dir an dieser Situation besonders auffällt vielleicht ein Detail?\nSchreib “ok”, wenn es weitergehen kann.",
+    "Jetzt überleg mal. Kannst du dieser Situation einen Namen geben? Oder eine Überschrift? Die Überschrift kann sich darauf beziehen, oder ein Headliner sein.\nWas wäre ein Songtitel für diese Situation? Schreibe die Überschrift oder den Songtitel in das unten liegende Feld. Bitte verzichte hier auf konkrete Namen(eigentlich hatten wir diese Aufgabe im Kopf gemacht weil da auch krasse sachen rauskommen können die vielleicht so nicht ausgesprochen werden müssen. )\nJetzt schreib den Namen auf.",
+    "Wenn diese Situation ein Bild bekommen würde, wie sähe das aus?\nWas für eine Landschaft wäre diese Situation? Eine Landschaft kann irgendein Ort sein, kann auch in der Stadt sein oder ein Raum. Das muss gar nichts mit dem Ort zu tun haben, wo die Situation stattgefunden hat. Es geht eher um das Gefühl von der Situation. Ist das eng, oder ganz weit?\nBeschreib jetzt diese Landschaft. Wie sieht sie aus?\nWenn du noch etwas mehr Unterstützung oder eine andere Anregung brauchst, schreib “mehr” und",
+    "Vielleicht passt es nicht mit der Landschaft.\n\nVielleicht ist es eher ein Tier? Vielleicht denkt ihr an euch, was für ein Tier ihr gewesen wärt, z.b. wie eine Maus, die sich verkrümeln wollte oder ihr denkt an das Gegenüber welches Tier wäre das im Vergleich zu euch gewesen. Beschreibt dieses Tier wie sieht das aus.\nNimm dir Zeit, wenn du deine Landschaft oder dein Tier vor Augen hast schreib alles dazu unten in das Feld hinein.",
+    "Super, du hast jetzt ein Gefühl, eine Überschrift und ein Bild. Du hast gerade gesehen, wie Kunst entstehen kann.\n\nJetzt soll die Bildbeschreibung kreiert werden."
 ]
 bot_responses = list()
 messages = list()
@@ -44,9 +47,11 @@ def create_artistic_description(responses):
     description_prompt = (
         f"Create an artistic image description based on the following inputs:\n"
         f"1. Situation: {responses[0]}\n"
-        f"2. Animal: {responses[1]}\n"
-        f"3. Landscape: {responses[2]}\n"
-        f"4. Item: {responses[3]}"
+        f"2. Situation Details: {responses[1]}\n"
+        f"3. Detail: {responses[2]}\n"
+        f"4. Title: {responses[3]}\n"
+        f"5. Landscape: {responses[4]}\n"
+        f"6. Animal (if applicable): {responses[5] if len(responses) > 5 else 'N/A'}"
     )
 
     messages.append({'role': 'user', 'content': description_prompt})
@@ -93,21 +98,18 @@ if __name__ == '__main__':
             if user_input.lower() == '':
                 st.warning('Please enter a message.')
             else:
-                response = chat_with_bot(user_input)
-                st.write(f'Chat Bot: {response}')
+                st.session_state.responses.append(user_input)
 
                 if 'history' not in st.session_state:
-                    st.session_state['history'] = f'You: {user_input}\nChat Bot: {response}\n'
+                    st.session_state['history'] = f'You: {user_input}\n'
                 else:
-                    st.session_state['history'] += f'You: {user_input}\nChat Bot: {response}\n'
+                    st.session_state['history'] += f'You: {user_input}\n'
 
                 st.text_area(label='Chat History', value=st.session_state['history'], height=400)
 
-                if st.session_state.current_question_index < len(questions):
-                    st.session_state.responses.append(user_input)
+                if st.session_state.current_question_index < len(questions) - 1:
                     st.session_state.current_question_index += 1
-                else:
-                    st.session_state.responses.append(user_input)
+                elif st.session_state.current_question_index == len(questions) - 1:
                     artistic_description = create_artistic_description(st.session_state.responses)
                     st.write(f'Artistic Description: {artistic_description}')
-
+                    st.session_state.current_question_index += 1
