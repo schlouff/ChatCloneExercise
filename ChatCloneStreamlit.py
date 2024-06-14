@@ -5,9 +5,9 @@ import openai
 
 from openai import OpenAI
 
-st.write("DB username:", st.secrets["Christo"])
-st.write("DB password:", st.secrets["ba11one"])
-st.write("api:", st.secrets["api"]["api_key"])
+api_key = st.secrets["api"]["api_key"]
+assert api_key.startswith('sk-'), 'Error loading the API key. The API key starts with "sk-"'
+os.environ['OPENAI_API_KEY'] = api_key
 
 
 openai.api_key = api_key
