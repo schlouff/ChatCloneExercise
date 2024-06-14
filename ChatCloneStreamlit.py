@@ -65,6 +65,14 @@ def create_artistic_description(responses):
     artistic_description = completion.choices[0].message.content
     return artistic_description
 
+def generate_image(prompt):
+    dalle_prompt = {
+        "prompt": f"{prompt}, in the style of Egon Schiele",
+        "size": "1024x1024"
+    }
+    response = openai.Image.create(**dalle_prompt)
+    return response['data'][0]['url']
+
 if __name__ == '__main__':
     col1, col2 = st.columns([0.85, 0.15])
     with col1:
@@ -111,5 +119,6 @@ if __name__ == '__main__':
                     st.session_state.current_question_index += 1
                 elif st.session_state.current_question_index == len(questions) - 1:
                     artistic_description = create_artistic_description(st.session_state.responses)
-                    st.write(f'Artistic Description: {artistic_description}')
+                    image_url = generate_image(artistic_description)
+                    st.image(image_url, caption='Generated Image', use_column_width=True)
                     st.session_state.current_question_index += 1
