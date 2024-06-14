@@ -70,7 +70,7 @@ def generate_image(prompt):
         "prompt": f"{prompt}, in the style of Egon Schiele",
         "size": "1024x1024"
     }
-    response = openai.Image.create(**dalle_prompt)
+    response = client.images.generate(**dalle_prompt)
     return response['data'][0]['url']
 
 if __name__ == '__main__':
