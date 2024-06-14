@@ -9,9 +9,7 @@ api_key = st.secrets["api"]["api_key"]
 assert api_key.startswith('sk-'), 'Error loading the API key. The API key starts with "sk-"'
 os.environ['OPENAI_API_KEY'] = api_key
 
-
 openai.api_key = api_key
-
 
 client = OpenAI()
 
