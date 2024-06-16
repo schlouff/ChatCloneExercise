@@ -1,3 +1,4 @@
+Scham mit Image_Description
 import streamlit as st
 import os
 import time
@@ -68,7 +69,7 @@ def create_artistic_description(responses):
 if __name__ == '__main__':
     col1, col2 = st.columns([0.85, 0.15])
     with col1:
-        st.title('Chat Bot')
+        st.title('Scham mit Image_Description')
     with col2:
         st.image('ai.png', width=70)
 
