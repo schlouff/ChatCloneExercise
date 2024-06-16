@@ -1,16 +1,21 @@
-#Scham mit Image description
+#Scham mit Image_Description
 import streamlit as st
 import os
 import time
 import openai
+#import requests
+#import shutil
 
 from openai import OpenAI
+
+
+# Setze den API-Schlüssel
 
 api_key = st.secrets["api"]["api_key"]
 assert api_key.startswith('sk-'), 'Error loading the API key. The API key starts with "sk-"'
 os.environ['OPENAI_API_KEY'] = api_key
 
-openai.api_key = api_key
+#openai.api_key = api_key
 
 client = OpenAI()
 
@@ -24,11 +29,12 @@ questions = [
     "Vielleicht ist es eher ein Tier? Vielleicht denkt ihr an euch, was für ein Tier ihr gewesen wärt, z.b. wie eine Maus, die sich verkrümeln wollte oder ihr denkt an das Gegenüber welches Tier wäre das im Vergleich zu euch gewesen. Beschreibt dieses Tier wie sieht das aus.\nNimm dir Zeit, wenn du deine Landschaft oder dein Tier vor Augen hast schreib alles dazu unten in das Feld hinein.",
     "Super, du hast jetzt ein Gefühl, eine Überschrift und ein Bild. Du hast gerade gesehen, wie Kunst entstehen kann.\n\nJetzt soll die Bildbeschreibung kreiert werden."
 ]
+
 bot_responses = list()
 messages = list()
 
-system_prompt = 'Answer as concisely as possible.'
-messages.append({'role': 'system', 'content': system_prompt})
+#system_prompt = 'Answer as concisely as possible.'
+#messages.append({'role': 'system', 'content': system_prompt})
 
 def chat_with_bot(user_input):
     messages.append({'role': 'user', 'content': user_input})
@@ -43,6 +49,9 @@ def chat_with_bot(user_input):
     bot_responses.append(current_response)
     messages.append({'role': 'assistant', 'content': current_response})
     return current_response
+
+# user-description ohne Eingaben
+# user_description = "Eine Ente wackelt über die Straße"
 
 def create_artistic_description(responses):
     description_prompt = (
@@ -69,7 +78,7 @@ def create_artistic_description(responses):
 if __name__ == '__main__':
     col1, col2 = st.columns([0.85, 0.15])
     with col1:
-        st.title('Image Description')
+        st.title('Chat Bot')
     with col2:
         st.image('ai.png', width=70)
 
