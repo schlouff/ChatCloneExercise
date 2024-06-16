@@ -1,4 +1,4 @@
-Scham mit Image_Description
+#Scham mit Image_Description
 import streamlit as st
 import os
 import time
