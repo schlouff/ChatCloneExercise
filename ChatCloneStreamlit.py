@@ -71,7 +71,7 @@ def generate_image(prompt):
         "size": "1024x1024"
     }
     response = client.images.generate(**dalle_prompt)
-    return response['data'][0]['url']
+    return response.data[0].url.
 
 if __name__ == '__main__':
     col1, col2 = st.columns([0.85, 0.15])
