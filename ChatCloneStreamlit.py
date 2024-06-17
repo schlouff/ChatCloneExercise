@@ -1,6 +1,3 @@
-####Macht ee s Push?
-##okoksdokadpokpaodkpaiojdpa
-#aodpa
 #Scham mit Image_Description
 import streamlit as st
 import os
